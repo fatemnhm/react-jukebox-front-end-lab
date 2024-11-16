@@ -1,10 +1,10 @@
-const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/trucks`;
+const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/tracks`;
 
 export const index = async () => {
   try {
     const res = await fetch(BASE_URL);
-    const trucks = await res.json();
-    return trucks;
+    const tracks = await res.json();
+    return tracks;
   } catch (err) {
     console.log(err);
   }
@@ -25,9 +25,9 @@ export const create = async (formData) => {
   }
 };
 
-export const updateTruck = async (formData, truckId) => {
+export const updateTrack = async (formData, trackId) => {
   try {
-    const res = await fetch(`${BASE_URL}/${truckId}`, {
+    const res = await fetch(`${BASE_URL}/${trackId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -35,18 +35,18 @@ export const updateTruck = async (formData, truckId) => {
       body: JSON.stringify(formData),
     });
     return await res.json();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };
 
-export const deleteTruck = async (truckId) => {
+export const deleteTrack = async (trackId) => {
   try {
-    const res = await fetch(`${BASE_URL}/${truckId}`, {
+    const res = await fetch(`${BASE_URL}/${trackId}`, {
       method: 'DELETE',
     });
     return await res.json();
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
   }
 };

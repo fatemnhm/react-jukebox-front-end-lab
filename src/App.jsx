@@ -1,65 +1,87 @@
 import { useState, useEffect } from 'react';
 
 // Services
-import * as truckService from './services/trucksService';
+import * as trackService from './services/tracksService';
 
 // Components
-import TruckList from './components/TruckList';
-import TruckDetails from './components/TruckDetails';
-import TruckForm from './components/TruckForm';
+import TrackList from './components/TrackList';
+import TrackDetails from './components/TrackDetails';
+import TrackForm from './components/TrackForm';
 
 export default function App() {
-  const [trucks, setTrucks] = useState([]);
+  const [tracks, setTracks] = useState([]);
   const [selected, setSelected] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   useEffect(() => {
-    async function getTrucks() {
+    async function getTracks() {
       try {
-        const allTrucks = await truckService.index();
-        if (allTrucks.error) {
-          throw new Error(allTrucks.error);
+        const allTracks = await trackService.index();
+        if (allTracks.error) {
+          throw new Error(allTracks.error);
         }
-        setTrucks(allTrucks);
+        setTracks(allTracks);
       } catch (error) {
         console.log(error);
       }
     }
 
-    getTrucks();
+    getTracks();
   }, []);
 
-  const updateSelected = (truck) => {
-    setSelected(truck);
+  const updateSelected = (track) => {
+    setSelected(track);
   };
 
-  const handleAddTruck = async (formData) => {
+  const toggleForm = () => {
+    setIsFormOpen(!isFormOpen);
+  };
+
+  const handleCreate = async (formData) => {
     try {
-      const newTruck = await truckService.create(formData);
-      setTrucks([newTruck, ...trucks]);
-      setIsFormOpen(false);
+      const newTrack = await trackService.create(formData);
+      setTracks([...tracks, newTrack]);
+      toggleForm();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleFormView = () => {
-    setIsFormOpen(!isFormOpen);
+  const handleUpdate = async (formData, trackId) => {
+    try {
+      const updatedTrack = await trackService.updateTrack(formData, trackId);
+      setTracks(tracks.map(track => (track.id === trackId ? updatedTrack : track)));
+      setSelected(updatedTrack);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async (trackId) => {
+    try {
+      await trackService.deleteTrack(trackId);
+      setTracks(tracks.filter(track => track.id !== trackId));
+      setSelected(null);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
-    <>
-      <TruckList
-        truckList={trucks}
-        updateSelected={updateSelected}
-        handleFormView={handleFormView}
-        isFormOpen={isFormOpen}
-      />
-      {isFormOpen ? (
-        <TruckForm handleAddTruck={handleAddTruck} />
-      ) : (
-        <TruckDetails selected={selected} />
+    <div>
+      <h1>Track Manager</h1>
+      <button onClick={toggleForm}>
+        {isFormOpen ? 'Close Form' : 'Add New Track'}
+      </button>
+      {isFormOpen && <TrackForm onSubmit={handleCreate} />}
+      <TrackList tracks={tracks} onSelect={updateSelected} />
+      {selected && (
+        <TrackDetails
+          track={selected}
+          onUpdate={handleUpdate}
+          onDelete={handleDelete}
+        />
       )}
-    </>
+    </div>
   );
 }

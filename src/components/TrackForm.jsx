@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const TruckForm = (props) => {
+const TrackForm = (props) => {
   const initialState = props.selected ? props.selected : { title: '', artist: '' };
   const [formData, setFormData] = useState(initialState);
 
@@ -11,9 +11,9 @@ const TruckForm = (props) => {
   async function handleSubmit(evt) {
     evt.preventDefault();
     if (props.selected) {
-      props.handleUpdateTruck(formData, props.selected._id);
+      props.handleUpdateTrack(formData, props.selected._id);
     } else {
-      props.handleAddTruck(formData);
+      props.handleAddTrack(formData);
     }
   }
 
@@ -25,11 +25,11 @@ const TruckForm = (props) => {
         <label htmlFor="artist"> Artist </label>
         <input id="artist" name="artist" value={formData.artist} onChange={handleChange} required />
         <button onClick={handleSubmit} type="submit">
-          {props.selected ? 'Update Truck' : 'Add New Truck'}
+          {props.selected ? 'Update Track' : 'Add New Track'}
         </button>
       </form>
     </div>
   );
 };
 
-export default TruckForm;
+export default TrackForm;
