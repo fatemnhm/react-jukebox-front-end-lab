@@ -1,9 +1,9 @@
-const TrackDetails = (props) => {
+const NowPlaying = (props) => {
 
   if (!props.selected)
     return (
       <div>
-        <h1>click on the track for details</h1>
+        <h1>NO TRACK IS PLAYING</h1>
       </div>
     );
 
@@ -20,4 +20,6 @@ const TrackDetails = (props) => {
   );
 };
 
-export default TrackDetails;
+export default NowPlaying;
+
+

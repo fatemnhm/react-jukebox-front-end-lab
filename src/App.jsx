@@ -5,7 +5,7 @@ import * as trackService from './services/tracksService';
 
 // Components
 import TrackList from './components/TrackList';
-import TrackDetails from './components/TrackDetails';
+import NowPlaying from './components/NowPlaying';
 import TrackForm from './components/TrackForm';
 
 export default function App() {
@@ -103,7 +103,7 @@ export default function App() {
           handleUpdateTrack={handleUpdateTrack}
         />
       ) : (
-        <TrackDetails
+        <NowPlaying
           selected={selected}
           handleFormView={handleFormView}
           handleRemoveTrack={handleRemoveTrack}
