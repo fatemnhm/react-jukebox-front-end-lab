@@ -1,14 +1,14 @@
 import { useState } from 'react';
 
 const TrackForm = (props) => {
-  const initialState = props.selected
+  const TrackForm = props.selected
     ? props.selected
     : {
         title: '',
         artist: '',
       };
   // formData state to control the form
-  const [formData, setFormData] = useState(initialState);
+  const [formData, setFormData] = useState(TrackForm);
 
   // handleChange function to update formData state
   const handleChange = (evt) => {
